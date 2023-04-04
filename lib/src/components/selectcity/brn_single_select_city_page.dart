@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bruno/bruno.dart';
 import 'package:bruno/src/components/empty/brn_empty_status.dart';
 import 'package:bruno/src/components/navbar/brn_appbar.dart';
 import 'package:bruno/src/components/selectcity/brn_az_common.dart';
@@ -42,6 +43,10 @@ class BrnSingleSelectCityPage extends StatefulWidget {
   /// 空页面中间展位图展示
   final Image? emptyImage;
 
+  final Color? backgroundColor;
+  final Color? cardColor;
+  final Color? textColor;
+
   BrnSingleSelectCityPage({
     this.appBarTitle = '',
     this.hotCityTitle = '',
@@ -51,6 +56,9 @@ class BrnSingleSelectCityPage extends StatefulWidget {
     this.locationText = '',
     this.onValueChanged,
     this.emptyImage,
+    this.backgroundColor,
+    this.cardColor,
+    this.textColor,
   });
 
   @override
@@ -136,6 +144,8 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
   Widget _buildHeader() {
     List<BrnSelectCityModel> hotCityList = widget.hotCityList;
     double width = (MediaQuery.of(context).size.width - 70) / 3;
+    BrnCommonConfig commonConfig = BrnThemeConfigurator.instance.getConfig().commonConfig;
+    Color cc = widget.textColor ?? commonConfig.colorTextBase;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -145,6 +155,7 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
             widget.hotCityTitle ?? BrnIntl.of(context).localizedResource.recommandCity,
             textAlign: TextAlign.left,
             style: TextStyle(
+              color: cc,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -159,20 +170,20 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
               return OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   padding: EdgeInsets.all(0),
-                  side: BorderSide(color: Color(0xFFF8F8F8), width: .5),
-                  backgroundColor: Color(0xFFF8F8F8),
+                  side: BorderSide(color: commonConfig.colorTextBase.withOpacity(0.1), width: .5),
+                  backgroundColor: commonConfig.colorTextBase.withOpacity(0.1),
                 ),
                 child: Container(
                   alignment: Alignment.center,
                   height: 36.0,
                   width: width,
                   padding: EdgeInsets.all(0),
-                  color: Color(0xFFF8F8F8),
+                  color: widget.cardColor ?? commonConfig.colorTextBase.withOpacity(0.1),
                   child: Text(
                     e.name,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF222222),
+                      color: cc,
                       fontSize: BrnFonts.f12,
                       fontWeight: FontWeight.w400,
                     ),
@@ -197,7 +208,7 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
     return Container(
       height: _suspensionHeight.toDouble(),
       padding: const EdgeInsets.only(left: 15.0),
-      color: Color(0xfff3f4f5),
+      color: widget.backgroundColor ?? BrnThemeConfigurator.instance.getConfig().commonConfig.fillBody,
       alignment: Alignment.centerLeft,
       child: Text(
         '$susTag',
@@ -221,7 +232,7 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
         SizedBox(
           height: _itemHeight.toDouble(),
           child: ListTile(
-            title: Text(model.name),
+            title: Text(model.name, style: TextStyle(color: widget.textColor ?? BrnThemeConfigurator.instance.getConfig().commonConfig.colorTextBase),),
             onTap: () {
               debugPrint("OnItemClick: $model");
               if (widget.onValueChanged != null) {
@@ -239,6 +250,8 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
     return BrnSearchText(
       searchController: _brnSearchTextController,
       hintText: BrnIntl.of(context).localizedResource.inputSearchTip,
+      outSideColor: widget.backgroundColor ?? BrnThemeConfigurator.instance.getConfig().commonConfig.fillBody,
+      innerColor: widget.cardColor ?? BrnThemeConfigurator.instance.getConfig().commonConfig.colorTextBase.withOpacity(0.3),
       onTextChange: (text) {
         _searchText = text;
         _showCityStack = text.isEmpty;
@@ -260,6 +273,7 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
 
   ///定位当前 城市
   Widget _buildLocationBar(String locationText) {
+    Color cc = widget.textColor ?? BrnThemeConfigurator.instance.getConfig().commonConfig.colorTextBase;
     return Container(
         padding: EdgeInsets.only(left: 20, right: 10, top: 10, bottom: 10),
         child: Row(
@@ -268,8 +282,9 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
             Icon(
               Icons.place,
               size: 20.0,
+              color: cc,
             ),
-            Text(locationText),
+            Text(locationText, style: TextStyle(color: cc),),
           ],
         ));
   }
@@ -280,7 +295,7 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
         resizeToAvoidBottomInset: false,
         appBar: BrnAppBar(title: widget.appBarTitle ?? BrnIntl.of(context).localizedResource.selectCity),
         body: Container(
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: BoxDecoration(color: widget.backgroundColor ?? BrnThemeConfigurator.instance.getConfig().commonConfig.fillBody),
           child: Column(
             children: <Widget>[
               widget.locationText.isEmpty
@@ -364,6 +379,7 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
   Widget _noDataWidget() {
     return Container(
       child: BrnAbnormalStateWidget(
+        bgColor: widget.backgroundColor ?? BrnThemeConfigurator.instance.getConfig().commonConfig.fillBody,
         img: BrunoTools.getAssetImage(BrnAsset.noData),
         title: BrnIntl.of(context).localizedResource.noSearchData,
       ),

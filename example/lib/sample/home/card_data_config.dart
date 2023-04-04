@@ -583,6 +583,10 @@ class CardDataConfig {
       appBarTitle: '城市单选',
       hotCityTitle: '这里是推荐城市',
       hotCityList: hotCityList,
+      locationText: "成都市",
+      // backgroundColor: Colors.black,
+      // cardColor: Color(0x22252E).withOpacity(0.9),
+      // textColor: Colors.white
     );
   }
 }

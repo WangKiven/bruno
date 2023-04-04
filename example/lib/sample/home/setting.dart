@@ -70,7 +70,32 @@ class Setting extends StatelessWidget {
                         text: "已切换为 App 主题样式", context: context);
                   } else {
                     BrnInitializer.register(
-                        allThemeConfig: BrnPadThemeConfig.allConfig);
+                        // allThemeConfig: BrnPadThemeConfig.allConfig,
+                      allThemeConfig: BrnAllThemeConfig(
+                        // appBarConfig: BrnAppBarConfig.dark(),
+                          appBarConfig: BrnAppBarConfig(
+                            actionsStyle: BrnTextStyle(
+                                color: Colors.blueAccent
+                            ),
+                            titleStyle: BrnTextStyle.withStyle(TextStyle(color: Colors.white)),
+                            backgroundColor: Colors.cyan,
+                            leadIconBuilder: () => Image.asset(
+                              BrnAsset.iconBackWhite,
+                              package: BrnStrings.flutterPackageName,
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.fitHeight,
+                            )
+                          ),
+                        commonConfig: BrnCommonConfig(
+                          brandPrimary: Colors.red,
+                          dividerColorBase: Colors.yellow,
+                          colorTextBase: Colors.white,
+                          colorTextHint: Colors.white.withOpacity(0.5),
+                          fillBody: Colors.black,
+                        )
+                      )
+                    );
                     BrnToast.showInCenter(
                         text: "已切换为 Pad 主题样式", context: context);
                   }

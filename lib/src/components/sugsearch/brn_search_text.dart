@@ -189,7 +189,7 @@ class _SearchTextState extends State<BrnSearchText> {
               child: Container(
                 decoration: BoxDecoration(
                   color: widget.innerColor,
-                  border: border,
+                  // border: border,
                   // 边界半径（`borderRadius`）属性，对此容器框的角进行舍入。
                   borderRadius: widget.borderRadius,
                 ),
@@ -232,16 +232,19 @@ class _SearchTextState extends State<BrnSearchText> {
                                 borderSide: BorderSide.none),
                             contentPadding: EdgeInsets.only(left: 8, right: 6),
                             // 填充颜色属性，填充装饰容器的颜色。
-                            fillColor: widget.innerColor,
+                            // fillColor: widget.innerColor,
                             // 是密集属性，输入子项是否是密集形式的一部分（即使用较少的垂直空间）。
                             isDense: true,
-                            filled: true,
+                            // filled: true,
                             hintStyle: widget.hintStyle ??
                                 TextStyle(
                                   fontSize: 16,
                                   height: 1,
                                   textBaseline: TextBaseline.alphabetic,
-                                  color: Color(0xff999999),
+                                  color: BrnThemeConfigurator.instance
+                                      .getConfig()
+                                      .commonConfig
+                                      .colorTextHint,
                                 ),
                             hintText: widget.hintText ?? BrnIntl.of(context).localizedResource.inputSearchTip,
                             counterText: '',

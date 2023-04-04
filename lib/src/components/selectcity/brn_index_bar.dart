@@ -1,3 +1,4 @@
+import 'package:bruno/bruno.dart';
 import 'package:flutter/material.dart';
 
 /// IndexBar touch callback IndexModel.
@@ -50,11 +51,9 @@ class IndexBar extends StatefulWidget {
       this.width = 30,
       this.itemHeight = 16,
       this.color = Colors.transparent,
-      this.textStyle =
-          const TextStyle(fontSize: 12.0, color: Color(0xFF101D37)),
-      this.touchDownColor = const Color(0xffeeeeee),
-      this.touchDownTextStyle =
-          const TextStyle(fontSize: 12.0, color: Colors.black)});
+      this.textStyle,
+      this.touchDownColor,
+      this.touchDownTextStyle});
 
   /// index data.
   final List<String> data;
@@ -69,12 +68,12 @@ class IndexBar extends StatefulWidget {
   final Color color;
 
   /// IndexBar touch down color.
-  final Color touchDownColor;
+  final Color? touchDownColor;
 
   /// IndexBar text style.
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
-  final TextStyle touchDownTextStyle;
+  final TextStyle? touchDownTextStyle;
 
   /// Item touch callback.
   final IndexBarTouchCallback onTouch;
@@ -89,16 +88,18 @@ class _SuspensionListViewIndexBarState extends State<IndexBar> {
 
   @override
   Widget build(BuildContext context) {
+    Color cc = BrnThemeConfigurator.instance.getConfig().commonConfig.colorTextBase;
+    Color tc = widget.touchDownColor ?? cc.withOpacity(0.3);
     return Container(
       alignment: Alignment.center,
-      color: _isTouchDown ? widget.touchDownColor : widget.color,
+      color: _isTouchDown ? tc : widget.color,
       width: widget.width.toDouble(),
       child: _IndexBar(
         data: widget.data,
         width: widget.width,
         itemHeight: widget.itemHeight,
-        textStyle: widget.textStyle,
-        touchDownTextStyle: widget.touchDownTextStyle,
+        textStyle: widget.textStyle ?? TextStyle(fontSize: 12.0, color: cc),
+        touchDownTextStyle: widget.touchDownTextStyle ?? TextStyle(fontSize: 12.0, color: cc),
         onTouch: (details) {
           if (_isTouchDown != details.isTouchDown) {
             setState(() {

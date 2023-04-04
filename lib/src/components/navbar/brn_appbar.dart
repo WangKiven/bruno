@@ -258,7 +258,7 @@ class BrnAppBar extends PreferredSize {
 
   @override
   Widget get child {
-    BrnAppBarConfig _defaultConfig = themeData ?? BrnAppBarConfig();
+    /*BrnAppBarConfig _defaultConfig = themeData ?? BrnAppBarConfig();
     //当外部传入主题
     if (brightness == Brightness.light) {
       _defaultConfig = _defaultConfig.merge(BrnAppBarConfig.light());
@@ -271,7 +271,8 @@ class BrnAppBar extends PreferredSize {
     _defaultConfig = BrnThemeConfigurator.instance
         .getConfig(configId: _defaultConfig.configId)
         .appBarConfig
-        .merge(_defaultConfig);
+        .merge(_defaultConfig);*/
+    BrnAppBarConfig _defaultConfig = themeData ?? BrnThemeConfigurator.instance.getConfig().appBarConfig;
 
     Widget? flexibleSpace;
     if (this.flexibleSpace != null) {
