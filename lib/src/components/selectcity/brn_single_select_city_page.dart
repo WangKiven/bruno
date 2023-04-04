@@ -237,8 +237,9 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
               debugPrint("OnItemClick: $model");
               if (widget.onValueChanged != null) {
                 widget.onValueChanged!(model);
+              } else {
+                Navigator.pop(context, model);
               }
-              Navigator.pop(context, model);
             },
           ),
         )
