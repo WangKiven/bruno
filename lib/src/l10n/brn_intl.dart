@@ -14,9 +14,9 @@ class BrnIntl {
   /// 缓存当前语言对应的资源，用于无 context 的情况
   static BrnIntl? _current;
   static BrnBaseResource get currentResource {
-    assert(_current != null,
+    /*assert(_current != null,
         'No instance of BrnIntl was loaded. \n'
-        'Try to initialize the BrnLocalizationDelegate before accessing BrnIntl.currentResource.');
+        'Try to initialize the BrnLocalizationDelegate before accessing BrnIntl.currentResource.');*/
     /// 若应用未做本地化，则默认使用 zh-CN 资源
     if(_current == null) {
       _current = BrnIntl(BrnResourceZh.locale);
